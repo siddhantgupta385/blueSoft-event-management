@@ -18,6 +18,8 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 class EventSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')  # Make user field read-only
+
     class Meta:
         model = Event
         fields = ['id', 'title', 'description', 'date', 'location', 'user']

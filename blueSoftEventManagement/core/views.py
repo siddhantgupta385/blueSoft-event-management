@@ -19,6 +19,4 @@ class EventViewSet(viewsets.ModelViewSet):
         return self.queryset.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        user_tmp = User.objects.get(username = self.request.user)
-        print(user_tmp)
-        serializer.save(user = user_tmp)
+        serializer.save()
