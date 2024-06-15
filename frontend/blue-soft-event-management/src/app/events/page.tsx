@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { createEvent } from '../utils/api';
 import { useRouter } from 'next/navigation';
-import EventList from '../components/EventList';
+import EventTable from '../components/EventTable';
 
 const EventForm = ({ initialData = {} }) => {
   const [title, setTitle] = useState(initialData.title || '');
@@ -38,7 +38,7 @@ const EventForm = ({ initialData = {} }) => {
   return (
     <>
     <div>
-      <EventList />
+      <EventTable />
     </div>
     </>
   );
