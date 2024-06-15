@@ -22,7 +22,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['id', 'title', 'description', 'date', 'location', 'user']
+        fields = ['id', 'title', 'description', 'date', 'location', 'user', 'reminder']
 
     def create(self, validated_data):
         # Extract user from context (authenticated user)

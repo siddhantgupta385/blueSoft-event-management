@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { use, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { fetchEvents, deleteEvent } from '../utils/api';
 import { useRouter } from 'next/navigation';
@@ -17,29 +17,32 @@ const EventTable = () => {
       { Header: 'Description', accessor: 'description' },
       { Header: 'Date', accessor: 'date' },
       { Header: 'Location', accessor: 'location' },
+      { Header: 'Reminder', accessor: 'reminder' },
     ],
     []
   );
 
+  const getEvents = async () => {
+    if (!token) {
+      alert('You need to be logged in to view events.');
+      return;
+    }
+
+    const response = await fetchEvents(token);
+    if (response.detail) {
+      alert('Error fetching events: ' + response.detail);
+    } else {
+      const serializedEvents = response.map((event:any) => ({
+        ...event,
+        date: new Date(event.date).toISOString().slice(0, 10), // Serialize date to YYYY-MM-DD format
+        reminder: event.reminder ? new Date(event.reminder).toISOString().slice(0, 16).replace('T', ' ') : '', // Serialize reminder to YYYY-MM-DD HH:mm format
+      
+      }));
+      setEvents(serializedEvents);
+    }
+  };
+
   useEffect(() => {
-    const getEvents = async () => {
-      if (!token) {
-        alert('You need to be logged in to view events.');
-        return;
-      }
-
-      const response = await fetchEvents(token);
-      if (response.detail) {
-        alert('Error fetching events: ' + response.detail);
-      } else {
-        const serializedEvents = response.map((event:any) => ({
-          ...event,
-          date: new Date(event.date).toISOString().slice(0, 10), // Serialize date to YYYY-MM-DD format
-        }));
-        setEvents(serializedEvents);
-      }
-    };
-
     getEvents();
   }, [token]);
 
@@ -50,10 +53,13 @@ const EventTable = () => {
       if (response.detail) {
         alert('Error deleting event: ' + response.detail);
       } else {
-        setEvents(events.filter(event => event.id !== eventId));
+        getEvents()
+        // setEvents(events.filter(event => event.id !== eventId));
       }
     }
   };
+
+  const data = useMemo(() => events, [events]);
 
   const {
     getTableProps,
@@ -65,7 +71,7 @@ const EventTable = () => {
   } = useTable(
     {
       columns,
-      data: events,
+      data: data,
       initialState: {
         filters: [],
         sortBy: [],
