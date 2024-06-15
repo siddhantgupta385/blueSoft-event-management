@@ -1,43 +1,39 @@
 'use client'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../store';
+import styles from '../styles/Header.module.css';
 
 const Header = () => {
-  const [user, setUser] = useState(null);
+  const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
   const router = useRouter();
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      // You can decode the token to get user info if you want
-      // Here, I'm just simulating the presence of a logged-in user
-      setUser({ username: 'siddhant2' });
-    }
-  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    setUser(null);
+    localStorage.removeItem('user');
+    dispatch(logout());
     router.push('/login');
   };
 
   return (
-    <header>
-      <nav>
+    <header className={styles.header}>
+      <nav className={styles.nav}>
         <ul>
           <li><Link href="/">Home</Link></li>
-          <li><Link href="/login">Login</Link></li>
-          <li><Link href="/register">Register</Link></li>
-          <li><Link href="/events">Events</Link></li>
-          <li><Link href="/events/create">Create Event</Link></li>
-          {user && (
-            <>
-              <li>Welcome, {user.username}</li>
-              <li><button onClick={handleLogout}>Logout</button></li>
-            </>
-          )}
+          {user && <li><Link href="/events">Events</Link></li>}
         </ul>
+        <ul>
+          {!user && <li><Link href="/login">Login</Link></li>}
+          {!user && <li><Link href="/register">Register</Link></li>}
+        </ul>
+        {user && (
+          <ul className={styles['user-details']}>
+            <li>{user.username}</li>
+            <li><button onClick={handleLogout}>Logout</button></li>
+          </ul>
+        )}
       </nav>
     </header>
   );

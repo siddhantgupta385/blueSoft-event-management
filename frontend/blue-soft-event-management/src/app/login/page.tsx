@@ -1,20 +1,24 @@
 'use client'
-
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { login } from '../utils/api';
+import { useDispatch } from 'react-redux';
+import { login } from '../store';
+import { login as apiLogin } from '../utils/api';
 import styles from '../styles/Form.module.css';
 
-const Login = () => {
+const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
+  const dispatch = useDispatch();
 
-  const handleSubmit = async (event:any) => {
-    event.preventDefault();
-    const response = await login({ username, password });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await apiLogin({ username, password });
     if (response.access) {
       localStorage.setItem('token', response.access);
+      localStorage.setItem('user', JSON.stringify({ username }));
+      dispatch(login({ username }));
       router.push('/events');
     } else {
       alert('Login failed');
@@ -25,19 +29,19 @@ const Login = () => {
     <div className={styles['form-container']}>
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username:</label>
         <input
           type="text"
-          id="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
+          required
         />
-        <label htmlFor="password">Password:</label>
         <input
           type="password"
-          id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          required
         />
         <button type="submit">Login</button>
       </form>
@@ -45,4 +49,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

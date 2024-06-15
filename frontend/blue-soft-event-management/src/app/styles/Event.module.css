@@ -72,3 +72,13 @@
     background-color: #555;
   }
   
+  .event-table {
+    table-layout: fixed;
+    width: 100%;
+  }
+  
+  .event-table th td {
+    border: 1px solid black;
+    width: 1500px;
+    overflow: hidden;
+  }

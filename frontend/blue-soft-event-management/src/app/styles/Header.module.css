@@ -1,0 +1,46 @@
+.header {
+    background-color: #333;
+    color: white;
+    padding: 1em;
+  }
+  
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1em;
+  }
+  
+  .nav ul li {
+    display: inline;
+  }
+  
+  .nav ul li a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .nav ul li button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .user-details {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+  
+  .user-details li {
+    display: inline;
+  }
+  

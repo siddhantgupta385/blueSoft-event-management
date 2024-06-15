@@ -18,7 +18,8 @@ const EventForm = ({ eventId }) => {
         const response = await fetchEvent(eventId, token);
         setTitle(response.title);
         setDescription(response.description);
-        setDate(response.date);
+        let dateObject = new Date(response.date)
+        setDate(dateObject.toISOString().slice(0, 10));
         setLocation(response.location);
       };
       getEvent();
