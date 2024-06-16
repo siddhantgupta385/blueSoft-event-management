@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { fetchUsers, inviteToEvent } from '../utils/api';
 import { useRouter } from 'next/navigation';
 
-const EventInviteForm = ({ eventId }) => {
+const EventInviteForm = ({ eventId }:any) => {
   const [users, setUsers] = useState([]);
   const [inviteeIds, setInviteeIds] = useState([]);
   const router = useRouter();
@@ -19,7 +19,7 @@ const EventInviteForm = ({ eventId }) => {
   }, [token]);
 
   const handleInviteChange = (e:any) => {
-    const value = Array.from(e.target.selectedOptions, option => option.value);
+    const value:any = Array.from(e.target.selectedOptions, (option:any) => option.value);
     setInviteeIds(value);
   };
 

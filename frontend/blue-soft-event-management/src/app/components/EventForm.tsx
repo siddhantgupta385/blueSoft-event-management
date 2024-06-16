@@ -7,12 +7,26 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import EventInviteForm from './EventInviteForm';
 
-const EventForm = ({ eventId }) => {
+interface EventFormProps {
+  eventId?: string;
+}
+
+interface Event {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+  location: string;
+  invitees: string[];
+}
+
+
+const EventForm: React.FC<EventFormProps> = ({ eventId }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
   const [location, setLocation] = useState('');
-  const [reminder, setReminder] = useState('');
+  const [reminder, setReminder] = useState<any>();
   const [inviteeIds, setInviteeIds] = useState([]);
   const router = useRouter();
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';

@@ -4,14 +4,27 @@ import { createEvent } from '../utils/api';
 import { useRouter } from 'next/navigation';
 import EventTable from '../components/EventTable';
 
-const EventForm = ({ initialData = {} }) => {
-  const [title, setTitle] = useState(initialData.title || '');
-  const [description, setDescription] = useState(initialData.description || '');
-  const [date, setDate] = useState(initialData.date || '');
-  const [location, setLocation] = useState(initialData.location || '');
+interface Event {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+  location: string;
+  invitees: string[];
+}
+
+interface EventsPageProps {
+  initialData?: Event[];
+}
+
+const EventsPage: React.FC<EventsPageProps> = () => {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [date, setDate] = useState('');
+  const [location, setLocation] = useState('');
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
     if (!token) {
@@ -37,11 +50,11 @@ const EventForm = ({ initialData = {} }) => {
 
   return (
     <>
-    <div>
-      <EventTable />
-    </div>
+      <div>
+        <EventTable />
+      </div>
     </>
   );
 };
 
-export default EventForm;
+export default EventsPage;

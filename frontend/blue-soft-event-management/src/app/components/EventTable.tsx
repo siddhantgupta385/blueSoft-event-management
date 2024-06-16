@@ -52,7 +52,7 @@ const EventTable = () => {
   const handleDelete = async (eventId: any) => {
     const confirmed = confirm('Are you sure you want to delete this event?');
     if (confirmed) {
-      const response = await deleteEvent(eventId, token);
+      const response:any = await deleteEvent(eventId, token);
       if (response.detail) {
         alert('Error deleting event: ' + response.detail);
       } else {

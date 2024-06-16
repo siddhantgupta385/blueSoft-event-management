@@ -1,6 +1,7 @@
 // utils/api.js
 
-const API_URL = 'http://127.0.0.1:8000/api';
+// const API_URL = 'http://127.0.0.1:8000/api';
+const API_URL = 'https://event-management-system-dtg5.onrender.com/api';
 
 export const register = async (userData:any) => {
   const response = await fetch(`${API_URL}/register/`, {
