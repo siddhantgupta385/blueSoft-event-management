@@ -26,7 +26,7 @@ SECRET_KEY = 't62lsfy$9c#ko0!4%ic)dn+31x5w&n)@a=m0v)x7&h31zq)xxj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['your-heroku-app-name.herokuapp.com', 'localhost','127.0.0.1']
+ALLOWED_HOSTS = ['event-management-system-dtg5.onrender.com', 'localhost','127.0.0.1']
 import dj_database_url
 
 
