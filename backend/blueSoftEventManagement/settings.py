@@ -26,7 +26,9 @@ SECRET_KEY = 't62lsfy$9c#ko0!4%ic)dn+31x5w&n)@a=m0v)x7&h31zq)xxj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['your-heroku-app-name.herokuapp.com', 'localhost','127.0.0.1']
+import dj_database_url
+
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
@@ -61,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'blueSoftEventManagement.urls'
@@ -87,14 +90,15 @@ WSGI_APPLICATION = 'blueSoftEventManagement.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config(default='postgres://events_management_sytem_user:sUf3CNnh7tEXkntJq3IzpQzC972a2St2@dpg-cpna92o8fa8c73atgq10-a.oregon-postgres.render.com/events_management_sytem', conn_max_age=600, ssl_require=True)
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
