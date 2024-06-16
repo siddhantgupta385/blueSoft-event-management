@@ -73,5 +73,32 @@ export const deleteEvent = async (id:any, token:any) => {
       'Authorization': `Bearer ${token}`,
     },
   });
-  return await response.json();
+  return await response;
+};
+
+export const fetchUsers = async (token:any) => {
+  const response = await fetch(`${API_URL}/users/`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  if (!response.ok) {
+    throw new Error('Failed to fetch users');
+  }
+  return response.json();
+};
+
+export const inviteToEvent = async (eventId:any, userIds:any, token:any) => {
+  const response = await fetch(`${API_URL}/events/${eventId}/invite/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({ user_ids: userIds })
+  });
+  if (!response.ok) {
+    throw new Error('Failed to invite users to event');
+  }
+  return response.json();
 };

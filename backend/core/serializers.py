@@ -19,17 +19,22 @@ class UserSerializer(serializers.ModelSerializer):
 
 class EventSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')  # Make user field read-only
-
+    invitees = UserSerializer(many=True, read_only=True)
+    invitee_ids = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=User.objects.all(), write_only=True, source='invitees', default=[]
+    )
     class Meta:
         model = Event
-        fields = ['id', 'title', 'description', 'date', 'location', 'user', 'reminder']
+        fields = ['id', 'title', 'description', 'date', 'location', 'user', 'reminder', 'invitees', 'invitee_ids']
 
     def create(self, validated_data):
         # Extract user from context (authenticated user)
         user = self.context['request'].user
+        invitees = validated_data.pop('invitees', [])
         
         event = Event.objects.create(
             user=user,  # Assign user object directly
             **validated_data
         )
+        event.invitees.set(invitees)
         return event

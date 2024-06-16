@@ -8,7 +8,7 @@ class Event(models.Model):
     location = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     reminder = models.DateTimeField(null=True, blank=True)
-
+    invitees = models.ManyToManyField(User, related_name='invited_events', blank=True)
 
     def __str__(self):
         return self.title

@@ -17,6 +17,7 @@ const EventTable = () => {
       { Header: 'Description', accessor: 'description' },
       { Header: 'Date', accessor: 'date' },
       { Header: 'Location', accessor: 'location' },
+      { Header: 'Invitees', accessor: 'invitees' },
       { Header: 'Reminder', accessor: 'reminder' },
     ],
     []
@@ -36,6 +37,8 @@ const EventTable = () => {
         ...event,
         date: new Date(event.date).toISOString().slice(0, 10), // Serialize date to YYYY-MM-DD format
         reminder: event.reminder ? new Date(event.reminder).toISOString().slice(0, 16).replace('T', ' ') : '', // Serialize reminder to YYYY-MM-DD HH:mm format
+        invitees: event.invitees.map((user:any) => user.username).join(', '), // Serialize invitees to comma-separated string
+        
       
       }));
       setEvents(serializedEvents);

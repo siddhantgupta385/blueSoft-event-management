@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import styles from '../styles/Event.module.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import EventInviteForm from './EventInviteForm';
 
 const EventForm = ({ eventId }) => {
   const [title, setTitle] = useState('');
@@ -12,6 +13,7 @@ const EventForm = ({ eventId }) => {
   const [date, setDate] = useState('');
   const [location, setLocation] = useState('');
   const [reminder, setReminder] = useState('');
+  const [inviteeIds, setInviteeIds] = useState([]);
   const router = useRouter();
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
 
@@ -25,6 +27,8 @@ const EventForm = ({ eventId }) => {
         setDate(dateObject.toISOString().slice(0, 10));
         setLocation(response.location);
         setReminder(response.reminder ? new Date(response.reminder) : null);
+        setInviteeIds(response.invitees.map((user:any) => user.id));
+ 
       };
       getEvent();
     }
@@ -37,7 +41,14 @@ const EventForm = ({ eventId }) => {
       return;
     }
 
-    const eventData = { title, description, date, location, reminder: reminder ? reminder.toISOString() : null };
+    const eventData = {
+      title,
+      description,
+      date: date,
+      location,
+      reminder: reminder ? reminder.toISOString() : null,
+      invitee_ids: inviteeIds,
+    };
     let response;
 
     if (eventId) {
@@ -96,6 +107,7 @@ const EventForm = ({ eventId }) => {
         />
         <button type="submit">Save</button>
       </form>
+      {eventId && <EventInviteForm eventId={eventId} />}
     </div>
   );
 };
