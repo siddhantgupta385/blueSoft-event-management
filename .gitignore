@@ -4,3 +4,4 @@ backend/core/migrations/__pycache__
 frontend/package-lock.json
 frontend/blue-soft-event-management/package-lock.json
 backend/blueSoftEventManagement/__pycache__
+backend/venv/
